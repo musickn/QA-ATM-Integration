@@ -15,17 +15,22 @@ class transfer{
     public function doTransfer(string $targetNumber, string $amount){
         $response["isError"] = true;
         $response["message"] = "ยอดเงินในบัญชีไม่เพียงพอ";
-        try {
-            $response = ServiceAuthentication::accountAuthenticationProvider($targetNumber);
-            $response["isError"] = false;
-            $response["message"] = "";
-            echo $response;
-            echo "test";
-            } catch(Error $e) {
-                $response["message"] = "Unknown error occurs in Transfer";
-            }
 
-      return $response;
+        
+        // $response = ServiceAuthentication::accountAuthenticationProvider($targetNumber);
+        // $test = ServiceAuthentication::accountAuthenticationProvider($targetNumber);
+        // echo 'haha' $test;
+        // try {
+        //     $test = ServiceAuthentication::accountAuthenticationProvider($targetNumber);
+        //     echo $test;
+        //     $response["isError"] = false;
+        //     $response["message"] = "gg";
+        //     } 
+        //     catch(Error $e) {
+        //         echo "errordadsadadadad";
+        //         $response["message"] = "Unknown error occurs in Transfer";
+        //     }
+        return $response;
     }
 }
 

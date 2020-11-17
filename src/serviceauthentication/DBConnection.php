@@ -96,4 +96,15 @@ class DBConnection {
 
         return $result;
     }
+
+    public static function saveTransactionTransfer(string $srcAccNo, int $srcUpdatedBalance, string $desAccNo, int $desUpdatedBalance): bool {
+        $con = new mysqli('localhost', 'root', '', 'integration');
+
+        $stmt = "UPDATE ACCOUNT SET balance = ". $srcUpdatedBalance. " WHERE no = ". $srcAccNo;
+        $stmt2 = "UPDATE ACCOUNT SET balance = ". $desUpdatedBalance. " WHERE no = ". $desAccNo;
+        $result = $con->query($stmt, $stmt2);
+        $con->close();
+
+        return $result;
+    }
 }

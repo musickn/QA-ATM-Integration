@@ -118,7 +118,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-10 offset-sm-2">
-                                            <input type="button" value="ยืนยัน" class="btn btn-primary" onclick="submit()">
+                                            <input type="submit" value="ยืนยัน" class="btn btn-primary">
                                         </div>
                                     </div>
                                 </form>
@@ -183,54 +183,97 @@
             return val;
         }
 
-        function submit() {
-            var textAccInfo = $("#accNo").text() + ' (' + $("#accName").text() + ')';
-            var textDesAccNo = $("#accDesNo").val().replace(/(\d{1})\-?(\d{3})\-?(\d{3})\-?(\d{3})/, '$1-$2-$3-$4');
-            swal({
-                title: 'โอนเงิน',
-                text: `โอนเงินจากบัญชี ${textAccInfo} ไปยังบัญชีหมายเลข ${textDesAccNo} เป็นจำนวนเงิน ${commaSeparateNumber($("#amount").val())} บาท`,
-                type: "info",
-                showCancelButton: true,
-                confirmButtonText: 'ยืนยัน',
-                cancelButtonText: 'ยกเลิก',
-                reverseButtons: true
-            }).then((result) => {
-                if (result) {
-                    $.ajax({
-                        method: "POST",
-                        url: "/src/controller.php",
-                        dataType: "json",
-                        data: {
-                            service: "Transfer",
-                            transaction: {
-                                srcNumber: $("#accNo").text(),
-                                srcName: $("#accName").text(),
-                                targetNumber: $("#accDesNo").val(),
-                                amount: $("#amount").val()
-                            }
-                        }
-
-                    }).done(function (response) {
-                        if (response.isError) {
-                            swal({
-                                title: 'ผิดพลาด',
-                                text: `${response.message}`,
-                                type: "error"
-                            })
-                        } else {
-
-                        }
-                    }).fail(function (xhr, status, error) {
+        $("#transferForm").submit(function (event) {
+            if (readCookie("authentication")) {
+                $.ajax({
+                    method: "POST",
+                    url: "../src/controller.php",
+                    dataType: "json",
+                    data: {
+                        service: "ServiceAuthentication",
+                    }
+                }).done(function (response) {
+                    if (response.isError) {
+                        console.log("error");
                         swal(
                             'ผิดพลาด',
                             error,
                             'error'
                         );
-                    });
-                    event.preventDefault();
-                }
-            });
-        };
+                    }
+                    else {
+                        console.log(response);
+                        var textAccInfo = $("#accNo").text() + ' (' + $("#accName").text() + ')';
+                        var textDesAccNo = $("#accDesNo").val().replace(/(\d{1})\-?(\d{3})\-?(\d{3})\-?(\d{3})/, '$1-$2-$3-$4');
+                        swal({
+                            title: 'โอนเงิน',
+                            text: `โอนเงินจากบัญชี ${textAccInfo} ไปยังบัญชีหมายเลข ${textDesAccNo} เป็นจำนวนเงิน ${commaSeparateNumber($("#amount").val())} บาท`,
+                            type: "info",
+                            showCancelButton: true,
+                            confirmButtonText: 'ยืนยัน',
+                            cancelButtonText: 'ยกเลิก',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result == true) {
+                                console.log("is clicked");
+                                console.log(response.accNo.toString())
+                                console.log(response.accName)
+                                console.log($("#accDesNo").val())
+                                console.log($("#amount").val())
+                                $.ajax({
+                                    method: "POST",
+                                    url: "../src/controller.php",
+                                    dataType: "json",
+                                    data: {
+                                    service: "Transfer",
+                                    transaction: {
+                                        srcNumber: response.accNo.toString(),
+                                        srcName: response.accName,
+                                        targetNumber: $("#accDesNo").val(),
+                                        amount: $("#amount").val()
+                                    }
+                                }
+                                }).done(function (response) {
+                                    if (response.isError) {
+                                        console.log("show error");
+                                        swal({
+                                            title: 'ผิดพลาด',
+                                            text: `${response.message}`,
+                                            type: "error",
+                                        })
+                                    }
+                                    else {
+                                        console.log("hail hydra");
+                                        var accBalance = commaSeparateNumber(response.accBalance)
+                                        // $("#charge").text(commaSeparateNumber(response.accWaterCharge));
+                                        swal({
+                                            title: 'โอนเงินเรียบร้อย',
+                                            text: `ยอดเงินคงเหลือ = ${accBalance} บาท`,
+                                            type: "success",
+                                        })
+                                    }
+                                }).fail(function (xhr, status, error) {
+                                    console.log(xhr, status, error);
+                                    console.log("failed");
+                                    swal(
+                                        'ผิดพลาด',
+                                        error,
+                                        'error'
+                                    );
+                                });
+                            }
+                        }).catch(swal.noop);
+                    }
+                }).fail(function (xhr, status, error) {
+                    swal(
+                        'ผิดพลาด',
+                        error,
+                        'error'
+                    );
+                });
+                event.preventDefault();
+            }
+        });
 
     </script>
 

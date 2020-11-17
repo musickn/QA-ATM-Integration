@@ -236,6 +236,7 @@
                                 }).done(function (response) {
                                     if (response.isError) {
                                         console.log("show error");
+                                        console.log(response);
                                         swal({
                                             title: 'ผิดพลาด',
                                             text: `${response.message}`,
@@ -251,6 +252,7 @@
                                             text: `ยอดเงินคงเหลือ = ${accBalance} บาท`,
                                             type: "success",
                                         })
+                                        loadCustInfo();
                                     }
                                 }).fail(function (xhr, status, error) {
                                     console.log(xhr, status, error);

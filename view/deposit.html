@@ -1,3 +1,4 @@
+  
 <!DOCTYPE html>
 <html>
 <head>
@@ -95,7 +96,7 @@
                                 <p>ยอดเงินคงเหลือ :
                                     <span id="accBalance" class="pink">accBalance</span> บาท
                                 </p>
-                                <form id="depositForm" class="form-horizontal">
+                                <form id="depositForm" class="form-horizontal" onsubmit="return onSubmitDeposit()">
                                     <div class="form-group row">
                                         <label class="col-sm-2 form-control-label">จำนวนเงิน
                                         </label>
@@ -158,6 +159,71 @@
           }
           return val;
       }
+      
+      
+      function onSubmitDeposit()
+      {
+        swal({
+            title: 'ฝากเงิน',
+            html: 
+                `ฝากเงินเข้าบัญชี <br/>`+
+                $('#accNo').text()+'('+ $('#accName').text()+') <br/>'+
+                `เป็นจำนวนเงิน `+commaSeparateNumber($('#amount').val())+' บาท'
+            ,
+            type: 'info',
+            showCancelButton: true,
+            
+            confirmButtonText: 'ยืนยัน',
+            cancelButtonText: 'ยกเลิก'
+        })
+        .then((result) => {
+            if(result)
+            {
+                submitDeposit();
+            }
+        })
+        return false;
+      }
+
+      function submitDeposit()
+      {
+        $.ajax({
+            method: "POST",
+            url: "../src/controller.php",
+            dataType: "json",
+            data: {
+              service:"Deposit",
+              transaction:{
+                amount:  $('#amount').val()
+              },
+            }
+          })
+            .done(function (result) {
+              if (result.isError){
+                swal(
+                    'ผิดพลาด',
+                    result.message,
+                    'error'
+                );
+              }
+              else{
+                swal(
+                    'ฝากเงินเรียบร้อย',
+                    'ยอดเงินคงเหลือ = ' +commaSeparateNumber(result.accBalance) +' บาท',
+                    'success'
+                );
+                $('#amount').val('');
+                loadCustInfo();
+              }
+            }).fail(function(xhr,status,error){
+              swal(
+                  'ผิดพลาด',
+                  error,
+                  'error'
+              );
+            });
+        }   
+      
     </script>
     <script src="../lib/js/cookie-mgmt.js"></script>
     <!-- Javascript files-->

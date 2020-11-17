@@ -1,13 +1,15 @@
 <?php namespace Operation;
 
 require_once __DIR__."./../../src/deposit/DepositService.php";
+require_once __DIR__."./../../src/withdraw/StubWithdrawal.php";
 require_once __DIR__."./../serviceauthentication/serviceauthentication.php";
 require_once __DIR__."./../serviceauthentication/AccountInformationException.php";
 require_once __DIR__."./../serviceauthentication/DBConnection.php";
 use DBConnection;
 use ServiceAuthentication;
-use DepositService;
+use Operation\DepositService;
 use AccountInformationException;
+use Stub\StubWithdrawal;
 
 class transfer{
     private $srcNumber,$srcName, $targetNumber, $amount;
@@ -33,30 +35,34 @@ class transfer{
         } else {
             try
             {
-                $account =  $this->accountAuthenticationProvider($this->targetNumber);
-                $accNo = $account['accNo'];
-                $updatedBalance = $account['accBalance'] + (int)$amount;
-                // if($this->saveTransaction($accNo, $updatedBalance))
-                // {
-                //     $response = array(
-                //         "isError" => false,
-                //         "accNo" => $accNo,
-                //         "accBalance" => $updatedBalance,
-                //         "accName" => $account['accName'],
-                //     );
-                    
-                // }
-                // else
-                // {
-                //     $response["message"] = "Invalid.";
-                // }
-            }
-            catch(AccountInformationException $e)
+                $srcAccount = $this->accountAuthenticationProvider($this->srcNumber);
+                $desAccount = $this->accountAuthenticationProvider($targetNumber);
+                if ($srcAccount['accBalance'] - (int)$amount < 0) {
+                    $response["message"] = "คุณมียอดเงินในบัญชีไม่เพียงพอ";
+                } else {
+                    $withdraw = new StubWithdrawal($srcAccount['accNo']);
+                    $withdrawResult = $withdraw->withdraw($amount);
+
+                    $deposit =  new DepositService($desAccount['accNo']);
+                    $depositResult = $deposit->deposit($amount);
+                    if ($depositResult['isError'] || $withdrawResult['isError']) {
+                        $response['message'] = "ดำเนินการไม่สำเร็จ";
+                        // This would have an issues if one can complete but another doesn't.
+                    } else {
+                        $response['isError'] = false;
+                        $response['accBalance'] = $withdrawResult['accBalance'];
+                    }
+                }     
+            } catch(AccountInformationException $e)
             {
-                $result["message"] = $e->getMessage();
-            }            
+                $response["message"] = $e->getMessage();
+            }    
         }
         return $response;
+    }
+    public function accountAuthenticationProvider(string $acctNum) : array
+    {
+        return  ServiceAuthentication::accountAuthenticationProvider($acctNum);
     }
     public function deposit(string $amount):array
     {
@@ -66,6 +72,7 @@ class transfer{
     public function withdraw(string $amount):array
     {
         //call WithdrawService
+        return  StubWithdrawal::withdraw($amount);
     }
 
 }

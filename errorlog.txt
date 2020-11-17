@@ -314,3 +314,87 @@ Stack trace:
 #0 /opt/lampp/htdocs/src/controller.php(45): Operation\transfer->doTransfer('1232131241', NULL)
 #1 {main}
 
+Log Time: 17-11-2020 20:52:34pm
+Error: Class 'DepositService' not found in C:\xampp\htdocs\src\transfer\transfer.php:20
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('4234324242', '111')
+#1 {main}
+
+Log Time: 17-11-2020 21:00:11pm
+Error: Class 'DepositService' not found in C:\xampp\htdocs\src\transfer\transfer.php:20
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('1321313131', '1111')
+#1 {main}
+
+Log Time: 17-11-2020 21:01:25pm
+Error: Class 'DepositService' not found in C:\xampp\htdocs\src\transfer\transfer.php:20
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('1231313131', '111')
+#1 {main}
+
+Log Time: 17-11-2020 21:04:18pm
+Error: Class 'Operation\DepositeService' not found in C:\xampp\htdocs\src\transfer\transfer.php:21
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('1232131231', '111')
+#1 {main}
+
+Log Time: 17-11-2020 21:06:02pm
+Error: Class 'Operation\DepositeService' not found in C:\xampp\htdocs\src\transfer\transfer.php:21
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('1231313131', '1111')
+#1 {main}
+
+Log Time: 17-11-2020 21:09:25pm
+Error: Class 'Operation\DepositeService' not found in C:\xampp\htdocs\src\transfer\transfer.php:21
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('1231231231', '2')
+#1 {main}
+
+Log Time: 17-11-2020 22:37:09pm
+Error: Call to undefined method Operation\transfer::accountAuthenticationProvider() in C:\xampp\htdocs\src\transfer\transfer.php:27
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('4234324242', '22')
+#1 {main}
+
+Log Time: 17-11-2020 22:37:48pm
+Error: Call to undefined method Operation\transfer::accountAuthenticationProvider() in C:\xampp\htdocs\src\transfer\transfer.php:28
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('1231231313', '122')
+#1 {main}
+
+Log Time: 17-11-2020 22:38:24pm
+Error: Call to undefined method Operation\transfer::accountAuthenticationProvider() in C:\xampp\htdocs\src\transfer\transfer.php:29
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('1321313131', '22')
+#1 {main}
+
+Log Time: 17-11-2020 22:40:38pm
+Error: Call to undefined method Operation\transfer::accountAuthenticationProvider() in C:\xampp\htdocs\src\transfer\transfer.php:33
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('4234324242', '2')
+#1 {main}
+
+Log Time: 17-11-2020 22:43:09pm
+Error: Call to undefined method Operation\transfer::accountAuthenticationProvider() in C:\xampp\htdocs\src\transfer\transfer.php:34
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('4234324242', '2')
+#1 {main}
+
+Log Time: 17-11-2020 22:50:48pm
+Error: Call to undefined method Operation\transfer::accountAuthenticationProvider() in C:\xampp\htdocs\src\transfer\transfer.php:30
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('1231231313', '11')
+#1 {main}
+
+Log Time: 17-11-2020 22:52:18pm
+Error: Call to undefined method Operation\transfer::accountAuthenticationProvider() in C:\xampp\htdocs\src\transfer\transfer.php:32
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('1231313131', '111')
+#1 {main}
+
+Log Time: 17-11-2020 23:33:30pm
+Error: Call to undefined method Operation\transfer::accountAuthenticationProvider() in C:\xampp\htdocs\src\transfer\transfer.php:35
+Stack trace:
+#0 C:\xampp\htdocs\src\controller.php(45): Operation\transfer->doTransfer('4234324242', '222')
+#1 {main}
+

@@ -194,7 +194,6 @@
                     }
                 }).done(function (response) {
                     if (response.isError) {
-                        console.log("error");
                         swal(
                             'ผิดพลาด',
                             error,
@@ -202,7 +201,6 @@
                         );
                     }
                     else {
-                        console.log(response);
                         var textAccInfo = $("#accNo").text() + ' (' + $("#accName").text() + ')';
                         var textDesAccNo = $("#accDesNo").val().replace(/(\d{1})\-?(\d{3})\-?(\d{3})\-?(\d{3})/, '$1-$2-$3-$4');
                         swal({
@@ -215,11 +213,6 @@
                             reverseButtons: true
                         }).then((result) => {
                             if (result == true) {
-                                console.log("is clicked");
-                                console.log(response.accNo.toString())
-                                console.log(response.accName)
-                                console.log($("#accDesNo").val())
-                                console.log($("#amount").val())
                                 $.ajax({
                                     method: "POST",
                                     url: "../src/controller.php",
@@ -235,8 +228,6 @@
                                 }
                                 }).done(function (response) {
                                     if (response.isError) {
-                                        console.log("show error");
-                                        console.log(response);
                                         swal({
                                             title: 'ผิดพลาด',
                                             text: `${response.message}`,
@@ -244,8 +235,6 @@
                                         })
                                     }
                                     else {
-                                        console.log("hail hydra");
-                                        console.log(response);
                                         swal({
                                             title: 'โอนเงินเรียบร้อย',
                                             text: `ยอดเงินคงเหลือ = ${commaSeparateNumber(response.accBalance)} บาท`,
@@ -254,8 +243,6 @@
                                         loadCustInfo();
                                     }
                                 }).fail(function (xhr, status, error) {
-                                    console.log(xhr, status, error);
-                                    console.log("failed");
                                     swal(
                                         'ผิดพลาด',
                                         error,

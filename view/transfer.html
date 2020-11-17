@@ -245,11 +245,10 @@
                                     }
                                     else {
                                         console.log("hail hydra");
-                                        var accBalance = commaSeparateNumber(response.accBalance)
-                                        // $("#charge").text(commaSeparateNumber(response.accWaterCharge));
+                                        console.log(response);
                                         swal({
                                             title: 'โอนเงินเรียบร้อย',
-                                            text: `ยอดเงินคงเหลือ = ${accBalance} บาท`,
+                                            text: `ยอดเงินคงเหลือ = ${commaSeparateNumber(response.accBalance)} บาท`,
                                             type: "success",
                                         })
                                         loadCustInfo();

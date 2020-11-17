@@ -18,18 +18,19 @@ class transfer{
     }
 
     public function doTransfer(string $targetNumber, string $amount){
-        $this->targetNumber = $targetNumber;
-        $this->amount = $amount;
         $response = array("isError" => true);
-        if (!preg_match('/^[0-9]*$/',$this->srcNumber)) {
-            $response["message"] = "ระบบไม่สามารถให้กรอกเลขบัญชีเกิน 10 หลักได้";
+        if (!preg_match('/^[0-9]*$/',$this->srcNumber) || !preg_match('/^[0-9]*$/',$targetNumber)) {
+            $response["message"] = "หมายเลขบัญชีต้องเป็นตัวเลขเท่านั้น";
         }
-        elseif (strlen($this->srcNumber) != 10) {
+        elseif (strlen($this->srcNumber) != 10 || strlen($targetNumber) != 10) {
             $response["message"] = "หมายเลขบัญชีต้องมีจำนวน 10 หลัก";
+        } elseif ((int)$amount <=0) {
+            $response["message"] = "ยอดการโอนต้องมากกว่า 0 บาท";
+        } elseif ((int)$amount > 9999999) {
+            $response["message"] = "ยอดการโอนต้องไม่มากกว่า 9,999,999 บาท";
+        } elseif ($this->srcNumber == $targetNumber) {
+            $response["message"] = "ไม่สามารถโอนไปบัญชีตัวเองได้";
         } else {
-            // try {
-            //     $result = $this->deposit($this->amount);
-            // }
             try
             {
                 $account =  $this->accountAuthenticationProvider($this->targetNumber);

@@ -14,7 +14,7 @@ use Stub\StubWithdrawal;
 use Stub\StubDeposit;
 
 class transfer{
-    private $srcNumber,$srcName, $targetNumber, $amount;
+    private $srcNumber,$srcName;
 
     public function __construct(string $srcNumber,string $srcName){
         $this->srcNumber = $srcNumber;
@@ -22,6 +22,8 @@ class transfer{
     }
 
     public function doTransfer(string $targetNumber, string $amount){
+
+        $response["accBalance"] = 0;
         $response = array("isError" => true);
         if (!preg_match('/^[0-9]*$/',$this->srcNumber) || !preg_match('/^[0-9]*$/',$targetNumber)) {
             $response["message"] = "หมายเลขบัญชีต้องเป็นตัวเลขเท่านั้น";
@@ -33,13 +35,15 @@ class transfer{
             $response["message"] = "ยอดการโอนต้องไม่มากกว่า 9,999,999 บาท";
         } elseif ($this->srcNumber == $targetNumber) {
             $response["message"] = "ไม่สามารถโอนไปบัญชีตัวเองได้";
-        } else if (!is_int($this->$amount) || is_double($this->$amount)) {
-            $response["message"] = "จำนวนเงินต้องเป็นตัวเลขเท่านั้น";
         } else {
             try
             {
-                $srcAccount = $this->accountAuthenticationProvider($this->srcNumber);
-                $desAccount = $this->accountAuthenticationProvider($targetNumber);
+                //$srcAccount = $this->accountAuthenticationProvider($this->srcNumber);
+                //$desAccount = $this->accountAuthenticationProvider($targetNumber);
+                $srcAccount['accBalance'] = 100000;
+                $srcAccount['accNo'] = '1234567890';
+                $desAccount['accNo'] = '9876543210';
+
                 if ($srcAccount['accBalance'] - (int)$amount < 0) {
                     $response["message"] = "คุณมียอดเงินในบัญชีไม่เพียงพอ";
                 } else {
@@ -54,6 +58,7 @@ class transfer{
                     } else {
                         $response['isError'] = false;
                         $response['accBalance'] = $withdrawResult['accBalance'];
+                        $response['message'] = "";
                     }
                 }     
             } catch(AccountInformationException $e)
@@ -61,6 +66,7 @@ class transfer{
                 $response["message"] = $e->getMessage();
             }    
         }
+
         return $response;
     }
     public function accountAuthenticationProvider(string $acctNum) : array

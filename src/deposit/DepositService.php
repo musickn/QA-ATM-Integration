@@ -65,7 +65,6 @@ class DepositService
 
     public function saveTransaction(string $accNo, int $updatedBalance) : bool
     { 
-        return true;
-        // return  DBConnection::saveTransaction($accNo, $updatedBalance);
+        return  DBConnection::saveTransaction($accNo, $updatedBalance);
     }
 }

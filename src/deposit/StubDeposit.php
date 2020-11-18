@@ -9,10 +9,10 @@ class StubDeposit
         $this->accNo = $accNo;
     }
 
-    public function doDeposit(string $amount): array
+    public function deposit(string $amount): array
     {
-        if ($this->accNo == '9999999999') {
-            return array("accNo" => $this->accNo, "accName" => "TestAccountName", "accBalance" => $amount + 20);
+        if ($this->accNo == '9876543210') {
+            return array("isError" => false,"accNo" => $this->accNo, "accName" => "TestAccountName", "accBalance" => $amount);
         } else {
             return array("isError" => true, "message" => "Account number : " . $this->accNo . " not found.");
         }

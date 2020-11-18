@@ -2,7 +2,7 @@
 
 require_once __DIR__."./../../src/deposit/DepositService.php";
 require_once __DIR__."./../../src/withdraw/StubWithdrawal.php";
-require_once __DIR__."./../../src/withdraw/StubDeposit.php";
+require_once __DIR__."./../../src/deposit/StubDeposit.php";
 require_once __DIR__."./../serviceauthentication/serviceauthentication.php";
 require_once __DIR__."./../serviceauthentication/AccountInformationException.php";
 require_once __DIR__."./../serviceauthentication/DBConnection.php";

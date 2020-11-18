@@ -1,7 +1,7 @@
 <phpunit>
     <testsuites>
-        <testsuite name="Deposit">
-            <directory suffix="Test.php">test/Deposit</directory>
+        <testsuite name="Transfer">
+            <directory suffix="TransferTest.php">test</directory>
         </testsuite>
     </testsuites>
     <!--

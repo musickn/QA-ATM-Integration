@@ -1,10 +1,6 @@
 <?php namespace Stub;
 
-require_once "../../src/deposit/DepositService.php";
-
-use Operation\DepositService;
-
-class StubDeposit extends DepositService
+class StubDeposit
 {
     private $accNo;
 

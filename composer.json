@@ -1,19 +1,5 @@
 {
-    "name": "Homwork5",
-    "type": "HW",
-    "require-dev": {
-        "phpunit/phpunit": "^6.3"
-    },
-    "license": "MIT",
-    "autoload": {
-      "psr-4": {
-        "Operation\\": "src/"
-      }
-    },
-    "authors": [
-        {
-            "name": "Peera",
-            "email": "peeratant@gmail.com"
-        }
-    ]
+  "require-dev": {
+      "phpunit/phpunit": "^7.3"
+  }
 }

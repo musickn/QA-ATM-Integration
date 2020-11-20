@@ -21,12 +21,27 @@ class transfer{
         $this->srcName = $srcName;
     }
 
+    public function DriverMain(){
+        
+        $srcAccNo =  '3455677565';
+        $srcAccName = 'Omar Reilly';
+        $tran = new transfer($srcAccNo,$srcAccName);
+        $srcAccBalance = 500000;
+
+        $targetNumber = '1234567890';
+        $targetAmount = 5000000;
+
+        $tran->doTransfer($targetNumber,$targetAmount);
+    }
+
     public function doTransfer(string $targetNumber, string $amount){
 
         $response["accBalance"] = 0;
         $response = array("isError" => true);
         if (!preg_match('/^[0-9]*$/',$this->srcNumber) || !preg_match('/^[0-9]*$/',$targetNumber)) {
             $response["message"] = "หมายเลขบัญชีต้องเป็นตัวเลขเท่านั้น";
+        } elseif (!preg_match('/^[0-9]*$/',$amount)) {
+            $response["message"] = "จำนวนเงินต้องเป็นตัวเลขเท่านั้น";
         } elseif (strlen($this->srcNumber) != 10 || strlen($targetNumber) != 10) {
             $response["message"] = "หมายเลขบัญชีต้องมีจำนวน 10 หลัก";
         } elseif ((int)$amount <=0) {
@@ -38,11 +53,8 @@ class transfer{
         } else {
             try
             {
-                //$srcAccount = $this->accountAuthenticationProvider($this->srcNumber);
-                //$desAccount = $this->accountAuthenticationProvider($targetNumber);
-                $srcAccount['accBalance'] = 100000;
-                $srcAccount['accNo'] = '1234567890';
-                $desAccount['accNo'] = '9876543210';
+                $srcAccount = $this->accountAuthenticationProvider($this->srcNumber);
+                $desAccount = $this->accountAuthenticationProvider($targetNumber);
 
                 if ($srcAccount['accBalance'] - (int)$amount < 0) {
                     $response["message"] = "คุณมียอดเงินในบัญชีไม่เพียงพอ";
@@ -54,7 +66,6 @@ class transfer{
                     $depositResult = $deposit->deposit($amount);
                     if ($depositResult['isError'] || $withdrawResult['isError']) {
                         $response['message'] = "ดำเนินการไม่สำเร็จ";
-                        // This would have an issues if one can complete but another doesn't.
                     } else {
                         $response['isError'] = false;
                         $response['accBalance'] = $withdrawResult['accBalance'];
@@ -80,7 +91,6 @@ class transfer{
 
     public function withdraw(string $amount):array
     {
-        //call WithdrawService
         return  StubWithdrawal::withdraw($amount);
     }
 

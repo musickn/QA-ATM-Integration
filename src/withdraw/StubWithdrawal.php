@@ -12,7 +12,7 @@ class StubWithdrawal
     public function withdraw(string $amount): array
     {
         if ($this->accNo == '1234567890') {
-            return array("isError" => true,"isError" => false, "accNo" => $this->accNo, "accName" => "TestAccountName", "accBalance" => $amount + 6000);
+            return array("isError" => true,"isError" => false, "accNo" => $this->accNo, "accName" => "TestAccountName", "accBalance" => 10000 - $amount);
         } else {
             return array("isError" => true, "message" => "Account number : " . $this->accNo . " not found.");
         }
